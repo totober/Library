@@ -15,6 +15,9 @@ let writer = document.getElementById("author");
 let date = document.getElementById("date");
 let page = document.getElementById("page");
 let read = document.getElementsByName("user_read");
+console.log(read)
+
+
 
 
 btn.addEventListener("click", displayModal);
@@ -44,8 +47,16 @@ Book.prototype.deleteFromArray = function() {
     console.log(this);
 }
 
+Book.prototype.dataIndex = function() {
+    let arrIndex = myLibrary.indexOf(this);
+    console.log(arrIndex);
+    return arrIndex;
+}
+
 // if i want the "this" to be te card created //
 Book.prototype.createCard = createCard
+
+
 
 
 function displayModal (e) {
@@ -84,9 +95,11 @@ function bookDelete (e) {
     }
     
 
-   e.target.parentElement.remove()
-    
+   e.target.parentElement.remove();
+   
 } 
+
+
 
 function addBook (e) {
 
@@ -113,25 +126,26 @@ function addBook (e) {
     //console.log(year)
     let pages = page.value.trim().toLowerCase();
     //console.log(pages)
+
     let readIt = () => {
         for (let i = 0; i < read.length; i++){
            if(read[i].checked) {
+              console.log(read[i].value)
               return read[i].value
            }
         }
-    }
+    } 
 
     let readItValue = readIt()
-    console.log(readIt())
     console.log(readItValue)
 
-    let obj = new Book(name, author, pages, year, readIt());
+    let obj = new Book(name, author, pages, year, readItValue);
 
     myLibrary.push(obj);
 
     //createCard(name, author, pages, year, readIt);
 
-     obj.createCard(name, author, pages, year); // if i want the "this" to be the card 
+     obj.createCard(name, author, pages, year, readItValue); // if i want the "this" to be the card 
     
     let inputs = document.querySelectorAll("input");
     inputs.forEach(input => input.value = "" )
@@ -143,7 +157,7 @@ function addBook (e) {
 } 
 
 
-function createCard (name, author, pages, year, ) {
+function createCard (name, author, pages, year, readItValue ) {
 
     console.log(this)
     
@@ -157,9 +171,11 @@ function createCard (name, author, pages, year, ) {
     let p4 = document.createElement("p");
 
     article.className = "card";
+    article.setAttribute("data-index", this.dataIndex())
     btnCard.className = "btn-card";
     btnCard.addEventListener("click", bookDelete);
-    btnToggle.classList.add("btn-toggle", "not-read")
+    btnToggle.classList.add("btn-toggle");
+    btnToggle.classList.add(btnToggleDisplay());
     btnToggle.addEventListener("click", readOrNot);
     btnCard.textContent = "X";
     btnToggle.textContent = "Wishlist";
@@ -179,6 +195,15 @@ function createCard (name, author, pages, year, ) {
     article.appendChild(btnToggle)
     article.appendChild(p4);
 
+    function btnToggleDisplay () {
+        if(readItValue === "no"){
+            return "not-read"
+        } else {
+            return "read"
+        }
+    }
+    console.log(btnToggleDisplay())
+
 }
 
 
@@ -193,13 +218,14 @@ function readOrNot (e) {
         e.target.classList.remove("not-read")
         e.target.classList.add("read")
         para.textContent = "toggle if you didn`t read the book yet"
-
+    
     } else {
         e.target.textContent = "Wishlist"
        // e.target.classList.toggle("not-read")
        e.target.classList.add("not-read")
        e.target.classList.remove("read")
        para.textContent = "toggle if you already read the book"
+
     }
 
 
