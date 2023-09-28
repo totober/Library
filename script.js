@@ -14,10 +14,8 @@ let title = document.getElementById("title");
 let writer = document.getElementById("author");
 let date = document.getElementById("date");
 let page = document.getElementById("page");
-let read = document.getElementsByName("user_read");
+let read = document.querySelector('input[type="checkbox"]');
 console.log(read)
-
-
 
 
 btn.addEventListener("click", displayModal);
@@ -128,13 +126,17 @@ function addBook (e) {
     //console.log(pages)
 
     let readIt = () => {
-        for (let i = 0; i < read.length; i++){
-           if(read[i].checked) {
-              console.log(read[i].value)
-              return read[i].value
+           if(read.checked === true) {
+              read.value = "yes"  
+              console.log(read.value)
+              return read.value
+           } else if  (read.checked === false){
+              
+              read.value = "no"
+              console.log(read.value)
+              return read.value
            }
-        }
-    } 
+        };
 
     let readItValue = readIt()
     console.log(readItValue)
@@ -175,16 +177,28 @@ function createCard (name, author, pages, year, readItValue ) {
     btnCard.className = "btn-card";
     btnCard.addEventListener("click", bookDelete);
     btnToggle.classList.add("btn-toggle");
-    btnToggle.classList.add(btnToggleDisplay());
+    //btnToggle.classList.add(btnToggleDisplay());
     btnToggle.addEventListener("click", readOrNot);
     btnCard.textContent = "X";
-    btnToggle.textContent = "Wishlist";
+    //btnToggle.textContent = "Wishlist";
     title.textContent = name;
     p1.textContent = `Author: ${author}`;
     p2.textContent =  `Published: ${year}`;
     p3.textContent =  `Number of pages: ${pages}`; 
     p4.className = "toggle-para";
-    p4.textContent = "toggle if you already read the book";
+    //p4.textContent = "toggle if you already read the book";
+
+    if(readItValue === "no"){
+        btnToggle.classList.add("not-read");
+        btnToggle.textContent = "Wishlist";
+        p4.textContent = "toggle if you already read the book";            
+
+    } else {
+        btnToggle.classList.add("read");
+        btnToggle.textContent = "Read It";
+        p4.textContent = "toggle if you didn`t read the book yet"
+ 
+    }
 
     main.appendChild(article);
     article.appendChild(title);
@@ -195,14 +209,8 @@ function createCard (name, author, pages, year, readItValue ) {
     article.appendChild(btnToggle)
     article.appendChild(p4);
 
-    function btnToggleDisplay () {
-        if(readItValue === "no"){
-            return "not-read"
-        } else {
-            return "read"
-        }
-    }
-    console.log(btnToggleDisplay())
+   
+  
 
 }
 
@@ -214,14 +222,12 @@ function readOrNot (e) {
 
     if(e.target.textContent === "Wishlist") {
         e.target.textContent = "Read It"
-        //e.target.classList.toggle("read")
         e.target.classList.remove("not-read")
         e.target.classList.add("read")
         para.textContent = "toggle if you didn`t read the book yet"
     
     } else {
-        e.target.textContent = "Wishlist"
-       // e.target.classList.toggle("not-read")
+       e.target.textContent = "Wishlist"
        e.target.classList.add("not-read")
        e.target.classList.remove("read")
        para.textContent = "toggle if you already read the book"

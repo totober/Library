@@ -230,6 +230,7 @@ main {
 
 article.card {
     max-height: 325px; 
+    max-width: 480px;
     padding: 10px;
     display: grid;
     grid-template-columns: 1fr 3fr 30px;
