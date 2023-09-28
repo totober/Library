@@ -28,8 +28,9 @@ btnToggle.addEventListener("click", readOrNot);
 
 const myLibrary = [];
 
+///// CONSTRUCTOR FUNCTION /////
 
-function Book (name, author, pages, year, readIt) {
+/* function Book (name, author, pages, year, readIt) {
 
     this.name = name,
     this.author = author,
@@ -37,9 +38,11 @@ function Book (name, author, pages, year, readIt) {
     this.pages = pages,
     this.readIt = readIt
 
-}
+} */
 
-Book.prototype.deleteFromArray = function() {
+///// PROTOTYPE /////
+
+/* Book.prototype.deleteFromArray = function() {
     let arrIndex = myLibrary.indexOf(this);
     myLibrary.splice(arrIndex, 1);
     console.log(this);
@@ -52,9 +55,32 @@ Book.prototype.dataIndex = function() {
 }
 
 // if i want the "this" to be te card created //
-Book.prototype.createCard = createCard
+Book.prototype.createCard = createCard */
 
+///// CLASS /////
 
+class Libro {
+    constructor(name, author, pages, year, readIt){
+        this.name = name,
+        this.author = author,
+        this.year = year,
+        this.pages = pages,
+        this.readIt = readIt
+    }
+
+    deleteFromArray(){
+        let arrIndex = myLibrary.indexOf(this);
+        myLibrary.splice(arrIndex, 1);
+        console.log(this);
+    }
+
+    dataIndex(){
+        let arrIndex = myLibrary.indexOf(this);
+        console.log(arrIndex);
+        return arrIndex;
+    }
+
+}
 
 
 function displayModal (e) {
@@ -117,13 +143,9 @@ function addBook (e) {
     }
 
     let name = nameOf();
-    //console.log(name)
     let author = writer.value.trim().toLowerCase();
-    //console.log(author)
     let year = date.value.trim().toLowerCase();
-    //console.log(year)
     let pages = page.value.trim().toLowerCase();
-    //console.log(pages)
 
     let readIt = () => {
            if(read.checked === true) {
@@ -141,13 +163,13 @@ function addBook (e) {
     let readItValue = readIt()
     console.log(readItValue)
 
-    let obj = new Book(name, author, pages, year, readItValue);
+    let obj = new /* Book */ Libro(name, author, pages, year, readItValue);
 
     myLibrary.push(obj);
 
-    //createCard(name, author, pages, year, readIt);
+    //obj.createCard(name, author, pages, year, readItValue);
 
-     obj.createCard(name, author, pages, year, readItValue); // if i want the "this" to be the card 
+    createCard.call(obj, name, author, pages, year, readItValue )
     
     let inputs = document.querySelectorAll("input");
     inputs.forEach(input => input.value = "" )
@@ -197,7 +219,6 @@ function createCard (name, author, pages, year, readItValue ) {
         btnToggle.classList.add("read");
         btnToggle.textContent = "Read It";
         p4.textContent = "toggle if you didn`t read the book yet"
- 
     }
 
     main.appendChild(article);
@@ -208,10 +229,6 @@ function createCard (name, author, pages, year, readItValue ) {
     article.appendChild(p3);
     article.appendChild(btnToggle)
     article.appendChild(p4);
-
-   
-  
-
 }
 
 
@@ -233,8 +250,6 @@ function readOrNot (e) {
        para.textContent = "toggle if you already read the book"
 
     }
-
-
 
 }
 
