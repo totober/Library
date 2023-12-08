@@ -9,6 +9,13 @@ let deleteBook = document.querySelector(".btn-card");
 let deleteBookConfirm = document.querySelector(".delete-book-confirm");
 let btnToggle = document.querySelector(".btn-toggle");
 
+let = requiredInputs = document.querySelectorAll(".required")
+console.log(requiredInputs)
+
+let form = document.querySelector("form")
+//form.addEventListener("submit", myfunc)
+console.log(form)
+
 
 let title = document.getElementById("title");
 let writer = document.getElementById("author");
@@ -21,7 +28,9 @@ console.log(read)
 btn.addEventListener("click", displayModal);
 cancel.addEventListener("click", closeModal);
 cancel2.addEventListener("click", closeModal2);
-add.addEventListener("click", addBook);
+//add.addEventListener("click", addBook);
+add.addEventListener("click", dataObservant);
+
 deleteBook.addEventListener("click", bookDelete);
 btnToggle.addEventListener("click", readOrNot);
 
@@ -88,6 +97,13 @@ function displayModal (e) {
 }
 
 function closeModal (e) {
+
+    let inputs = document.querySelectorAll("input");
+    inputs.forEach(input => input.value = "" )
+    inputs.forEach(input => input.checked = false )
+
+    let paras = document.querySelectorAll(".warning")
+    paras.forEach(para => para.textContent = "")
     dialog.close();
 } 
 
@@ -125,9 +141,9 @@ function bookDelete (e) {
 
 
 
-function addBook (e) {
+function addBook (/* e */) {
 
-    e.preventDefault();
+    /* e.preventDefault(); */
 
     let nameOf = () => {
        let name = title.value.trim().toUpperCase();
@@ -255,6 +271,55 @@ function readOrNot (e) {
 
 console.log("ola k ase")
 
+function inputComplete () {
 
 
+}
+
+
+function dataObservant(e) {
+
+    let msg = "Please, complete the data"
+
+  if(title.value === ""){
+
+    e.preventDefault()
+    title.parentElement.querySelector("p").textContent = msg
+    } else if(writer.value === "") {
+
+        e.preventDefault()
+        title.parentElement.querySelector("p").textContent = ""
+        writer.parentElement.querySelector("p").textContent = msg
+    } else if(date.value === "") {
+
+        e.preventDefault()
+        writer.parentElement.querySelector("p").textContent = ""
+        date.parentElement.querySelector("p").textContent = msg
+    } else if(page.value === "") {
+
+        e.preventDefault()
+        page.parentElement.querySelector("p").textContent = msg
+    } else {
+
+        addBook()
+    } 
+
+}
+
+
+
+
+
+
+/* 
+    requiredInputs.forEach(input => {
+        if(input.value === "") {
+            e.preventDefault()
+            input.parentElement.querySelector("p").textContent = "Please complete the data"
+        }
+        if(!input.value === "") {
+            addBook()
+        } 
+
+    }) */
 
