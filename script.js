@@ -298,6 +298,7 @@ function dataObservant(e) {
     } else if(page.value === "") {
 
         e.preventDefault()
+        date.parentElement.querySelector("p").textContent = ""
         page.parentElement.querySelector("p").textContent = msg
     } else {
 
