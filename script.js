@@ -253,6 +253,8 @@ function readOrNot (e) {
 
 }
 
+console.log("ola k ase")
+
 
 
 
