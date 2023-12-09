@@ -10,11 +10,6 @@ let deleteBookConfirm = document.querySelector(".delete-book-confirm");
 let btnToggle = document.querySelector(".btn-toggle");
 
 let = requiredInputs = document.querySelectorAll(".required")
-console.log(requiredInputs)
-
-let form = document.querySelector("form")
-//form.addEventListener("submit", myfunc)
-console.log(form)
 
 
 let title = document.getElementById("title");
@@ -22,7 +17,6 @@ let writer = document.getElementById("author");
 let date = document.getElementById("date");
 let page = document.getElementById("page");
 let read = document.querySelector('input[type="checkbox"]');
-console.log(read)
 
 
 btn.addEventListener("click", displayModal);
@@ -80,12 +74,10 @@ class Libro {
     deleteFromArray(){
         let arrIndex = myLibrary.indexOf(this);
         myLibrary.splice(arrIndex, 1);
-        console.log(this);
     }
 
     dataIndex(){
         let arrIndex = myLibrary.indexOf(this);
-        console.log(arrIndex);
         return arrIndex;
     }
 
@@ -118,8 +110,6 @@ function deleteOf (e) {
 
 function bookDelete (e) {
 
-    console.log(e.target.parentElement);
-
     let titleOf = e.target.parentElement.querySelector("h3");
 
     for(i=0; i < myLibrary.length; i++){
@@ -141,9 +131,8 @@ function bookDelete (e) {
 
 
 
-function addBook (/* e */) {
+function addBook () {
 
-    /* e.preventDefault(); */
 
     let nameOf = () => {
        let name = title.value.trim().toUpperCase();
@@ -165,19 +154,17 @@ function addBook (/* e */) {
 
     let readIt = () => {
            if(read.checked === true) {
+
               read.value = "yes"  
-              console.log(read.value)
               return read.value
            } else if  (read.checked === false){
               
               read.value = "no"
-              console.log(read.value)
               return read.value
            }
         };
 
     let readItValue = readIt()
-    console.log(readItValue)
 
     let obj = new /* Book */ Libro(name, author, pages, year, readItValue);
 
@@ -198,8 +185,6 @@ function addBook (/* e */) {
 
 
 function createCard (name, author, pages, year, readItValue ) {
-
-    console.log(this)
     
     let article = document.createElement("article");
     let btnCard = document.createElement("button");
@@ -251,7 +236,6 @@ function createCard (name, author, pages, year, readItValue ) {
 function readOrNot (e) {
 
     let para = e.target.parentElement.querySelector(".toggle-para");
-    console.log(para)
 
     if(e.target.textContent === "Wishlist") {
         e.target.textContent = "Read It"
@@ -264,63 +248,99 @@ function readOrNot (e) {
        e.target.classList.add("not-read")
        e.target.classList.remove("read")
        para.textContent = "toggle if you already read the book"
-
     }
-
 }
 
-console.log("ola k ase")
-
-function inputComplete () {
-
-
-}
-
+//////  SWITCH   //////
 
 function dataObservant(e) {
+    
+    e.preventDefault();
+    let paras = document.querySelectorAll(".warning").forEach(para => para.textContent = "");
+    let msg = "Please, complete the data";
 
+    switch (true) {
+        case title.value === "" :
+            title.parentElement.querySelector("p").textContent = msg;
+            break;
+        
+        case writer.value === "" :
+            writer.parentElement.querySelector("p").textContent = msg;
+            break;
+        
+        case date.value === "" :
+            date.parentElement.querySelector("p").textContent = msg;
+            break;
+
+        case page.value === "" :
+            page.parentElement.querySelector("p").textContent = msg;
+            break;
+        
+        default :
+            addBook();
+    }
+}
+
+
+
+
+/////// IF ELSE ///////
+
+/* function dataObservant(e) {
+
+    e.preventDefault()
+    let paras = document.querySelectorAll(".warning").forEach(para => para.textContent = "")
     let msg = "Please, complete the data"
 
   if(title.value === ""){
 
-    e.preventDefault()
     title.parentElement.querySelector("p").textContent = msg
     } else if(writer.value === "") {
 
-        e.preventDefault()
-        title.parentElement.querySelector("p").textContent = ""
         writer.parentElement.querySelector("p").textContent = msg
     } else if(date.value === "") {
 
-        e.preventDefault()
-        writer.parentElement.querySelector("p").textContent = ""
         date.parentElement.querySelector("p").textContent = msg
     } else if(page.value === "") {
 
-        e.preventDefault()
-        date.parentElement.querySelector("p").textContent = ""
         page.parentElement.querySelector("p").textContent = msg
     } else {
 
         addBook()
     } 
-
-}
-
-
+} */
+ 
 
 
 
 
-/* 
-    requiredInputs.forEach(input => {
-        if(input.value === "") {
-            e.preventDefault()
-            input.parentElement.querySelector("p").textContent = "Please complete the data"
-        }
-        if(!input.value === "") {
+
+/////// Busqueda sin depender TANTO de los condicionales if/else o switch ///////
+
+// funciono bien, sin embargo quedo un BUG que no pude quitar, y es que el mensaje de advertencia 
+// del segundo input (autor) no se quita.. No se porque, no tiene sentido pero pasa eso.
+// Por otro lado, el codigo si bien funciona (mas alla de ese fucking bug), creo que queda mas
+// rebuscado y dificil de leer que el anterior, osea con puras condicionales.
+// Habria que ver la performance, pero por lo visto me parecen mejores las otras opciones,
+// sobre todo el switch.
+
+/* function dataObservant(e) {
+
+    e.preventDefault();
+    let msg = "Please, complete the data";
+    let paras = document.querySelectorAll(".warning").forEach(para => para.textContent = "");
+    let requiredInputsArr = Array.from(requiredInputs);
+
+       for(let i = 0; i <= requiredInputsArr.length; i++) {
+
+            if(requiredInputsArr[i].value === ""){
+            requiredInputsArr[i].parentElement.querySelector("p").textContent = msg
+            break
+            } 
+
+            if(requiredInputsArr.every(input => !(input.value === ""))) {
             addBook()
-        } 
-
-    }) */
-
+            }
+        }    
+}     */    
+    

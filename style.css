@@ -401,7 +401,8 @@ dialog input {
 
 dialog p {
     background-color: rgb(198, 4, 4);
-    width: 183px;
-
-    
+    width: 200px;
+    border-radius: 5px;
+    text-align: center;
+    /* text-shadow: 1px 1px 1px black; */
 }
